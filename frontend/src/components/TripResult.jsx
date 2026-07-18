@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
-import jsPDF from 'jsPDF';
+import jsPDF from "jspdf";
 import axios from 'axios';
 
 const TripResult = () => {
