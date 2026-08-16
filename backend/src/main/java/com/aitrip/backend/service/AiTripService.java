@@ -17,16 +17,29 @@ public class AiTripService {
     @Value("${openrouter.api-key}")
     private String apiKey;
 
-    private static final String AI_URL = "https://api.groq.com/openai/v1/chat/completions";
+  private static final String AI_URL = "https://openrouter.ai/api/v1/chat/completions";
 
     public Itinerary generateTrip(String destination, int days, String budget, String style) {
-        Itinerary trip = callAiApi(destination, days, budget, style, "llama-3.3-70b-versatile");
-        if (trip != null) return trip;
+        Itinerary trip = callAiApi(
+                destination,
+                days,
+                budget,
+                style,
+                "meta-llama/llama-3.3-70b-instruct");
+
+        if (trip != null) {
+            return trip;
+        }
 
         System.out.println("⚠️ Primary AI failed. Switching to Backup Model...");
-        return callAiApi(destination, days, budget, style, "llama-3.1-8b-instant");
-    }
 
+        return callAiApi(
+                destination,
+                days,
+                budget,
+                style,
+                "meta-llama/llama-3.3-70b-instruct:free");
+    }
     private Itinerary callAiApi(String destination, int days, String budget, String style, String modelName) {
         try {
             RestTemplate restTemplate = new RestTemplate();
