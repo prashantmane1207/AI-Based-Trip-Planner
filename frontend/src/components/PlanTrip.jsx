@@ -83,21 +83,21 @@ const PlanTrip = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-blue-50">
-        <FaSpinner className="animate-spin text-4xl text-blue-600 mb-4" />
-        <h2 className="text-xl font-semibold text-gray-700">Planning your trip to {destination}...</h2>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
+        <FaSpinner className="animate-spin text-3xl text-brand-500 mb-4" />
+        <h2 className="text-lg font-semibold text-slate-800">Planning your trip to {destination}...</h2>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center p-8 bg-red-50 rounded-xl text-red-600">
-          <h2 className="text-2xl font-bold mb-2">Oops!</h2>
-          <p>{error}</p>
-          <button onClick={() => navigate('/')} className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
-            Try Again
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="text-center p-8 bg-white rounded-xl border border-red-100">
+          <h2 className="text-xl font-semibold mb-2 text-red-600">Something went wrong</h2>
+          <p className="text-slate-500">{error}</p>
+          <button onClick={() => navigate('/')} className="mt-5 px-5 py-2.5 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition">
+            Try again
           </button>
         </div>
       </div>
@@ -105,25 +105,24 @@ const PlanTrip = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-slate-50 p-6">
        {/* Button Container */}
-       <div className="flex gap-4 mb-6">
-           <button 
+       <div className="flex gap-3 mb-6">
+           <button
              onClick={() => navigate('/')}
-             className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 text-gray-600"
+             className="px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 transition"
            >
-             ← Plan Another Trip
+             ← Plan another trip
            </button>
 
-           {/* ✅ 3. The Save Button (Correctly placed inside JSX) */}
-           <button 
-                onClick={handleSaveTrip} 
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold shadow-md"
+           <button
+                onClick={handleSaveTrip}
+                className="px-5 py-2 bg-brand-500 text-white rounded-lg text-sm font-medium hover:bg-brand-600 transition"
             >
-                💾 Save This Trip
+                Save this trip
             </button>
        </div>
-       
+
        {trip && <TripResult tripData={trip} />}
     </div>
   );

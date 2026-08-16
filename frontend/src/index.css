@@ -6,3 +6,27 @@ html, body {
   height: 100%;
   margin: 0;
 }
+
+body {
+  background-color: #F8FAFC;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  ::selection {
+    background: #DCE7FF;
+    color: #1E293B;
+  }
+  :focus-visible {
+    outline: 2px solid #3B5FE0;
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
