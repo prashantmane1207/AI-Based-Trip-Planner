@@ -1,520 +1,408 @@
 # ✈️ Waypoint — AI Trip Planner
 
-**Waypoint** is a full-stack AI-powered trip planning application that helps users generate personalized travel itineraries based on their destination, budget, trip duration, and travel preferences.
-
-The application combines a **React.js frontend**, **Java Spring Boot backend**, **MongoDB database**, **Google Gemini API**, and **Google Places API** to create a personalized trip-planning experience.
-
----
+Waypoint is a full-stack AI-powered trip planning application that generates personalized travel itineraries based on the user's destination, budget, trip duration, and travel preferences.
 
 ## 🌐 Live Demo
 
-🚀 **[View Live Demo](https://ai-based-trip-planner-blush.vercel.app/)**
+[View Live Demo](https://ai-based-trip-planner-blush.vercel.app/)
 
-> **Note:** The current live deployment contains the frontend. The backend and API integrations require local configuration to run the complete application.
+## 📂 Source Code
 
-## 📂 GitHub Repository
-
-💻 **[View Source Code](https://github.com/prashantmane1207/AI-Based-Trip-Planner)**
+[View on GitHub](https://github.com/prashantmane1207/AI-Based-Trip-Planner)
 
 ---
 
-# 🎯 Project Objective
+## ✨ Features
 
-Planning a trip often requires searching across multiple platforms for destinations, attractions, places to visit, and organizing activities according to a budget and available time.
-
-Waypoint simplifies this process by allowing users to enter their trip preferences and generate a personalized itinerary using AI-powered recommendations and location information.
-
----
-
-# ✨ Features
-
-- 🤖 AI-powered trip itinerary generation
-- 🗺️ Personalized travel planning
-- 📅 Day-wise itinerary generation
-- 💰 Budget-based trip planning
-- 📍 Destination and place information
-- 🔎 Google Places API integration
-- 🧠 Google Gemini API integration
-- 👤 User data management
-- 💾 Trip data storage using MongoDB
-- 🔗 REST API communication
-- 📱 Responsive user interface
-- ⚡ React.js based frontend
+* 🤖 AI-powered trip itinerary generation using OpenRouter and Llama 3.3
+* 🗺️ Personalized travel planning
+* 📅 Day-wise itinerary with hotels and activities
+* 💰 Budget-based trip planning
+* 👤 User signup and login
+* 💾 Trip storage using MongoDB
+* 🔗 REST API communication between React.js and Spring Boot
+* 📍 Interactive map display
+* 📱 Responsive user interface
 
 ---
 
-# 🛠️ Tech Stack
+## 🛠️ Tech Stack
 
-## Frontend
-
-| Technology | Purpose |
-|---|---|
-| React.js | Frontend development |
-| JavaScript ES6+ | Application logic |
-| HTML5 | Page structure |
-| CSS3 | Styling |
-| Tailwind CSS | Responsive UI styling |
-
-## Backend
-
-| Technology | Purpose |
-|---|---|
-| Java | Backend programming |
-| Spring Boot | Backend framework |
-| Spring REST | REST API development |
-| Maven | Dependency management |
-
-## Database
-
-| Technology | Purpose |
-|---|---|
-| MongoDB | User and trip data storage |
-
-## APIs
-
-| API | Purpose |
-|---|---|
-| Google Gemini API | AI-powered itinerary generation |
-| Google Places API | Place and location information |
-
-## Development Tools
-
-- Git
-- GitHub
-- Postman
-- IntelliJ IDEA
-- VS Code
+| Category        | Technologies                                       |
+| --------------- | -------------------------------------------------- |
+| Frontend        | React.js, JavaScript, HTML5, CSS3, Tailwind CSS    |
+| Maps            | Leaflet, React Leaflet, Google Maps JavaScript SDK |
+| Backend         | Java 17, Spring Boot 3.2, Spring Web               |
+| Database        | MongoDB                                            |
+| Database Access | Spring Data MongoDB                                |
+| AI              | OpenRouter, Llama 3.3 70B Instruct                 |
+| Build Tool      | Maven                                              |
+| API Testing     | Postman                                            |
+| Development     | IntelliJ IDEA, VS Code                             |
+| Version Control | Git, GitHub                                        |
 
 ---
 
-# 🏗️ System Architecture
+## 🏗️ System Architecture
+
+```mermaid
+flowchart LR
+    U[👤 User] --> F[⚛️ React.js Frontend]
+
+    F -->|REST API / JSON| B[☕ Spring Boot Backend]
+
+    B --> C[Controller Layer]
+    C --> S[Service Layer]
+
+    S --> AI[🤖 OpenRouter<br/>Llama 3.3]
+    S --> DB[(🍃 MongoDB)]
+
+    AI --> S
+    DB --> S
+
+    S --> C
+    C --> F
+
+    F --> R[📅 Personalized<br/>Trip Itinerary]
+```
+
+---
+
+## 🔄 Application Workflow
 
 ```mermaid
 flowchart TD
+    A[👤 User] --> B[Enter Trip Details]
 
-    A[👤 User] --> B[🖥️ React.js Frontend]
+    B --> C[⚛️ React.js Frontend]
 
-    B -->|HTTP / REST API / JSON| C[☕ Spring Boot Backend]
+    C -->|POST Request| D[☕ Spring Boot Backend]
 
-    C --> D[Controller Layer]
+    D --> E[Process Trip Request]
 
-    D --> E[Service Layer]
+    E --> F[Build AI Prompt]
 
-    E --> F[Business Logic]
+    F --> G[🤖 OpenRouter API]
 
-    F --> G[(🍃 MongoDB)]
+    G --> H[Generate AI Itinerary]
 
-    F --> H[🤖 Google Gemini API]
+    H --> I[Parse AI Response]
 
-    F --> I[📍 Google Places API]
-
-    H --> J[📝 AI Generated Itinerary]
-
-    I --> J
+    I --> J[Return Itinerary JSON]
 
     J --> C
 
-    C --> B
+    C --> K[📅 Display Personalized Trip]
 
-    B --> K[📅 Personalized Trip Plan]
+    K --> L{Save Trip?}
+
+    L -->|Yes| M[POST /api/trips/save]
+    M --> N[(🍃 MongoDB)]
+
+    L -->|No| O[End]
 ```
 
 ---
 
-# 🔄 Application Workflow
+## ☕ Backend Architecture
 
 ```mermaid
 flowchart TD
+    F[⚛️ React.js Frontend]
+        -->|HTTP Request| C[Controller]
 
-    A[👤 User] --> B[Enter Trip Details]
+    C --> S[AiTripService]
 
-    B --> C[React.js Frontend]
+    S --> P[Build AI Prompt]
 
-    C --> D[Send REST API Request]
+    P --> A[🤖 OpenRouter API]
 
-    D --> E[Spring Boot Backend]
+    A --> R[AI Response]
 
-    E --> F[Validate Request]
+    R --> J[Parse JSON]
 
-    F --> G[Process Trip Request]
+    J --> I[Itinerary Object]
 
-    G --> H[🤖 Google Gemini API]
+    I --> C
 
-    G --> I[📍 Google Places API]
+    C --> UR[UserRepository]
+    C --> TR[TripRepository]
 
-    H --> J[Generate AI Itinerary]
+    UR --> DB[(🍃 MongoDB)]
+    TR --> DB
 
-    I --> J
-
-    J --> K[(🍃 MongoDB)]
-
-    K --> L[Backend Response]
-
-    L --> C
-
-    C --> M[📅 Display Personalized Trip]
+    C --> F
 ```
 
 ---
 
-# ☕ Backend Architecture
-
-```mermaid
-flowchart TD
-
-    A[React.js Frontend]
-
-    A -->|HTTP Request| B[REST Controller]
-
-    B --> C[Service Layer]
-
-    C --> D[Business Logic]
-
-    D --> E[Gemini API Integration]
-
-    D --> F[Google Places API Integration]
-
-    D --> G[MongoDB Operations]
-
-    G --> H[(MongoDB)]
-
-    E --> I[AI Generated Data]
-
-    F --> J[Place Information]
-
-    H --> K[Stored User / Trip Data]
-
-    I --> L[Backend Response]
-
-    J --> L
-
-    K --> L
-
-    L --> B
-
-    B --> A
-```
-
----
-
-# 🔁 Request and Response Flow
+## 🔁 API Request Flow
 
 ```mermaid
 sequenceDiagram
+    actor User
+    participant React as React.js
+    participant Controller as Spring Boot Controller
+    participant Service as AiTripService
+    participant AI as OpenRouter
+    participant DB as MongoDB
 
-    participant U as User
-    participant R as React.js
-    participant S as Spring Boot
-    participant G as Gemini API
-    participant P as Google Places API
-    participant M as MongoDB
+    User->>React: Enter trip preferences
 
-    U->>R: Enter trip preferences
+    React->>Controller: POST /api/trips/generate
 
-    R->>S: Send trip request
+    Controller->>Service: Generate trip
 
-    S->>S: Validate request
+    Service->>AI: Send itinerary prompt
 
-    S->>G: Generate itinerary
+    AI-->>Service: AI itinerary response
 
-    G-->>S: AI generated itinerary
+    Service->>Service: Parse JSON response
 
-    S->>P: Request place information
+    Service-->>Controller: Itinerary object
 
-    P-->>S: Place information
+    Controller-->>React: JSON response
 
-    S->>M: Store trip data
+    React-->>User: Display itinerary
 
-    M-->>S: Data saved
+    User->>React: Save trip
 
-    S-->>R: Return trip response
+    React->>Controller: POST /api/trips/save
 
-    R-->>U: Display personalized itinerary
+    Controller->>DB: Save trip
+
+    DB-->>Controller: Saved successfully
+
+    Controller-->>React: Confirmation
 ```
 
 ---
 
-# 📁 Project Structure
+## 📁 Project Structure
 
 ```text
 AI-Based-Trip-Planner/
 │
 ├── frontend/
-│   │
 │   ├── public/
-│   │
 │   ├── src/
 │   │   ├── components/
-│   │   ├── pages/
-│   │   ├── services/
+│   │   │   ├── PlanTrip
+│   │   │   ├── TripResult
+│   │   │   ├── MapSection
+│   │   │   ├── MapComponent
+│   │   │   ├── Home
+│   │   │   ├── Login
+│   │   │   ├── Signup
+│   │   │   └── MyTrips
+│   │   │
+│   │   ├── service/
+│   │   │   └── api.js
+│   │   │
 │   │   └── ...
 │   │
 │   ├── package.json
 │   └── ...
 │
 ├── backend/
-│   │
 │   ├── src/
-│   │   └── main/
-│   │       ├── java/
-│   │       └── resources/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── com/aitrip/backend/
+│   │   │   │       ├── AiTripApplication.java
+│   │   │   │       ├── config/
+│   │   │   │       │   └── WebConfig.java
+│   │   │   │       ├── controller/
+│   │   │   │       │   └── AiTripController.java
+│   │   │   │       ├── service/
+│   │   │   │       │   └── AiTripService.java
+│   │   │   │       ├── model/
+│   │   │   │       │   ├── User.java
+│   │   │   │       │   ├── Trip.java
+│   │   │   │       │   └── Itinerary.java
+│   │   │   │       └── repository/
+│   │   │   │           ├── UserRepository.java
+│   │   │   │           ├── TripRepository.java
+│   │   │   │           └── ItineraryRepository.java
+│   │   │   │
+│   │   │   └── resources/
+│   │   │       └── application.properties
+│   │   │
+│   │   └── test/
 │   │
 │   ├── pom.xml
 │   └── ...
 │
-├── screenshots/
-│   ├── home.png
-│   ├── trip-output.png
-│   ├── mongodb-users.png
-│   └── mongodb-trips.png
-│
+├── Home.png
+├── Output1.png
+├── Output2.png
+├── Output3.png
 └── README.md
 ```
 
-> Update this structure if your actual repository uses different folder or package names.
-
 ---
 
-# 👨‍💻 My Contribution
+## 👨‍💻 My Contribution
 
-This project was developed as a **team project**.
-
-My primary responsibility was the **Java/Spring Boot backend and API integration**.
+This project was developed as a team project. My primary responsibility was the **Java/Spring Boot backend and frontend integration**.
 
 ### Backend Development
 
-- Developed REST APIs using Spring Boot
-- Implemented backend request and response handling
-- Worked on trip planning business logic
-- Integrated Google Gemini API
-- Integrated Google Places API
-- Implemented request validation
-- Added exception handling
-- Worked with MongoDB data operations
-- Connected backend APIs with the React.js frontend
-- Tested APIs using Postman
+* Developed REST APIs using Spring Boot
+* Implemented trip generation, saving, and retrieval
+* Developed trip-planning business logic
+* Built prompts for AI itinerary generation
+* Integrated OpenRouter API with Llama 3.3
+* Implemented MongoDB operations using Spring Data MongoDB
+* Configured CORS
+* Implemented basic exception handling
+* Tested REST APIs using Postman
 
 ### Frontend Integration
 
-- Worked on connecting React.js frontend with Spring Boot REST APIs
-- Handled JSON request and response data
-- Assisted with frontend-backend integration
+* Connected React.js frontend with Spring Boot REST APIs
+* Implemented JSON request and response handling
+* Integrated frontend trip-planning functionality with backend APIs
 
 ---
 
+## 🚀 Getting Started
 
-# 🚀 Getting Started
+### Prerequisites
 
-Follow these steps to run the project locally.
+Make sure the following are installed:
 
----
+* Java 17+
+* Maven
+* Node.js
+* npm
+* MongoDB
+* Git
 
-## 📋 Prerequisites
-
-Make sure you have the following installed:
-
-- Java 17 or later
-- Maven
-- Node.js
-- npm
-- MongoDB
-- Git
-
----
-
-# 1️⃣ Clone the Repository
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/prashantmane1207/AI-Based-Trip-Planner.git
-```
-
-Navigate into the project:
-
-```bash
 cd AI-Based-Trip-Planner
 ```
 
----
-
-# 2️⃣ Backend Setup
-
-Navigate to the backend folder:
+### 2. Backend Setup
 
 ```bash
 cd backend
-```
-
-Build the Spring Boot project:
-
-```bash
 mvn clean install
-```
-
-Run the backend:
-
-```bash
 mvn spring-boot:run
 ```
 
-The Spring Boot backend will start on the configured port.
+Backend:
 
----
+```text
+http://localhost:8081
+```
 
-# 3️⃣ Frontend Setup
+### 3. Frontend Setup
 
-Open another terminal.
-
-Navigate to the frontend folder:
+Open another terminal:
 
 ```bash
 cd frontend
-```
-
-Install dependencies:
-
-```bash
 npm install
+npm run dev
 ```
 
-Start the React application:
+Frontend:
 
-```bash
-npm start
+```text
+http://localhost:5173
 ```
-
-The frontend will start on the configured local development port.
 
 ---
 
-# 🔐 Environment Variables
+## 🔐 Configuration
 
-The application requires API credentials for external services.
+Configure the following properties in:
 
-**Never commit API keys or passwords to GitHub.**
-
-Example configuration:
+```text
+backend/src/main/resources/application.properties
+```
 
 ```properties
-GEMINI_API_KEY=your_gemini_api_key
-GOOGLE_PLACES_API_KEY=your_google_places_api_key
-MONGODB_URI=your_mongodb_connection_string
+openrouter.api-key=YOUR_OPENROUTER_API_KEY
+server.port=8081
+spring.data.mongodb.uri=mongodb://localhost:27017/aitrip
 ```
 
-Use your actual project configuration method for these variables.
+> Never commit real API keys or database credentials to GitHub.
 
 ---
 
-## ⚠️ Security
+## 🧪 REST API Endpoints
 
-Do not upload sensitive information such as:
+| Endpoint                   | Method | Description            |
+| -------------------------- | ------ | ---------------------- |
+| `/api/auth/signup`         | POST   | Create a new user      |
+| `/api/auth/login`          | POST   | User login             |
+| `/api/trips/generate`      | POST   | Generate AI itinerary  |
+| `/api/trips/save`          | POST   | Save a trip            |
+| `/api/trips/user/{userId}` | GET    | Get user's saved trips |
 
-```text
-.env
-API keys
-Passwords
-Database credentials
-Secret tokens
-Private configuration files
-```
-
-Add sensitive files to `.gitignore`.
-
-Example:
-
-```gitignore
-.env
-*.env
-application-secret.properties
-```
-
----
-
-# 🧪 API Testing
-
-Backend REST APIs can be tested using **Postman**.
-
-Typical flow:
+### Example API Flow
 
 ```text
 React.js
-    ↓
+    │
+    ▼
 REST API Request
-    ↓
+    │
+    ▼
 Spring Boot Controller
-    ↓
-Service Layer
-    ↓
-External APIs / MongoDB
-    ↓
-REST API Response
-    ↓
+    │
+    ▼
+AiTripService
+    │
+    ├──────────────► OpenRouter API
+    │                      │
+    │                      ▼
+    │               AI Itinerary
+    │
+    └──────────────► MongoDB
+                           │
+                           ▼
+                     Saved Trip
+    │
+    ▼
+JSON Response
+    │
+    ▼
 React.js
 ```
 
 ---
 
-# 📚 Learning Outcomes
+## 📚 Learning Outcomes
 
-This project provided practical experience in:
-
-- Java backend development
-- Spring Boot
-- REST API development
-- API integration
-- JSON request and response handling
-- MongoDB database operations
-- React.js integration
-- Request validation
-- Exception handling
-- Postman API testing
-- Git and GitHub
-- Frontend-backend communication
-- Team-based project development
+* Java backend development with Spring Boot
+* REST API development
+* AI API integration
+* JSON request and response handling
+* MongoDB database operations
+* React.js and Spring Boot integration
+* Postman API testing
+* Git and GitHub
+* Team-based software development
 
 ---
 
-# 🔮 Future Enhancements
+## 👨‍💻 Developer
 
-Possible future improvements include:
-
-- 🌦️ Weather API integration
-- 🗺️ Interactive maps
-- 🛣️ Route visualization
-- 💰 Detailed trip budget breakdown
-- 🏨 Hotel recommendations
-- ✈️ Flight information
-- 📱 Mobile application
-- 🔔 Trip reminders
-- 🎯 Improved AI personalization
-
----
-
-# 🤝 Team Project
-
-Waypoint was developed collaboratively as a team project.
-
-Different team members contributed to areas such as:
-
-- Frontend development
-- Backend development
-- API integration
-- Database management
-- Application integration
-
----
-
-# 👨‍💻 Developer
-
-## Prashant Mane
+### Prashant Mane
 
 **Aspiring Software Developer**
 
-Java | Spring Boot | React.js | SQL | REST APIs | Hibernate
+`Java` · `Spring Boot` · `React.js` · `MongoDB` · `REST APIs`
 
-📧 **Email:** prashantmane1207@gmail.com
+📧 [prashantmane1207@gmail.com](mailto:prashantmane1207@gmail.com)
 
-💻 **GitHub:**  
-https://github.com/prashantmane1207
+💻 [GitHub](https://github.com/prashantmane1207)
 
-🔗 **LinkedIn:**  
-https://www.linkedin.com/in/prashant-mane-0b125b31b/
+🔗 [LinkedIn](https://www.linkedin.com/in/prashant-mane-0b125b31b/)
